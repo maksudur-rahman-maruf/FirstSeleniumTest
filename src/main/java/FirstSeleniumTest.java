@@ -2,6 +2,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.locators.RelativeLocator;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,6 +78,11 @@ public class FirstSeleniumTest {
         WebElement button = driver.findElement(By.cssSelector(".wpfront-button[href=" + '"' + "https://automationstepbystep.com/stories/" + '"' + "]"));
         js.executeScript("arguments[0].click();", button);
         js.executeScript("console.log(' Hello World ... ')"); // Console.log somehow doesn't execute Properly here.  But It works Fine on other sites/window.
+
+        // Relative Locator
+//        WebElement archivesButton = driver.findElement(By.cssSelector(".entry p:first-child a:last-child"));
+//        WebElement storiesButton = driver.findElement(RelativeLocator.with(By.tagName("a")).above(archivesButton));
+//        storiesButton.click();
 
         Thread.sleep(2000);
         driver.close();
