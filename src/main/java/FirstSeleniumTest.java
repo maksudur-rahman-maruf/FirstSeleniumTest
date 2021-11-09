@@ -1,17 +1,21 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
+import java.io.IOException;
+
 
 public class FirstSeleniumTest {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         String searchElement = "[name=" + '"' + "q" + '"' + "]";
 
         driver.manage().window().maximize();
-//        driver.manage().window().maximize();
+//        driver.manage().window().minimize();
 //        driver.manage().window().fullscreen();
 
         driver.get("https://google.com/");
@@ -49,7 +53,7 @@ public class FirstSeleniumTest {
         int width = driver.manage().window().getSize().getWidth();
         System.out.println(width);
 
-        driver.manage().window().setSize(new Dimension(800,600));
+        driver.manage().window().setSize(new Dimension(800, 600));
         Thread.sleep(2000);
 
         int positionX = driver.manage().window().getPosition().getX();
@@ -59,6 +63,20 @@ public class FirstSeleniumTest {
 
         driver.manage().window().setPosition(new Point(200, 500));
 
+        //Take Screenshot
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(srcFile, new File("./screenshots/images1.png"));
+
+        WebElement element = driver.findElement(By.cssSelector(".blog-name"));
+        File srcFile1 = element.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(srcFile1, new File("./screenshots/images2.png"));
+
+        // Getting JavaScript Executor
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        WebElement button = driver.findElement(By.cssSelector(".wpfront-button[href=" + '"' + "https://automationstepbystep.com/stories/" + '"' + "]"));
+        js.executeScript("arguments[0].click();", button);
+        js.executeScript("console.log(' Hello World ... ')"); // Console.log somehow doesn't execute Properly here.  But It works Fine on other sites/window.
 
         Thread.sleep(2000);
         driver.close();
